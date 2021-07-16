@@ -25,8 +25,8 @@ let baseMaps = {
 
 // Create the map object with a center and zoom level.
 let map = L.map('mapid', {
-    center: [43.7, -79.3],
-    zoom: 11,
+    center: [39.5, -98.5],
+    zoom: 3,
     layers: [satelliteStreets]
 });
 
@@ -35,7 +35,7 @@ L.control.layers(baseMaps).addTo(map);
 // Add GeoJSON data.
 
 // Accessing the Toronto neighborhoods routes GeoJSON URL.
-let torontoHoods = 'https://raw.githubusercontent.com/dannyvchu/mapping_earthquakes/mapping_geojson_polygons/torontoNeighborhoods.json';
+let earthquakeData = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson';
 
 // Create a style for the lines.
 let myStyle = {
@@ -45,13 +45,8 @@ let myStyle = {
 }
 
 // Grabbing our GeoJSON data.
-d3.json(torontoHoods).then(data => {
+d3.json(earthquakeData).then(data => {
     console.log(data);
     // Creating a GeoJSON layer with the retrieved data.
-    L.geoJson(data, {
-        style: myStyle,
-        onEachFeature: (feature,layer) => {
-            layer.bindPopup('<h3> Airline: ' + feature.properties.AREA_NAME + '</h3> <hr><h3> Destination: ' + feature.properties.dst + '</h3>');
-        }
-    }).addTo(map);
+    L.geoJson(data).addTo(map);
 });
